@@ -64,6 +64,7 @@ app.UseSwaggerUI();
 app.UseCors("AllowAll");
 app.UseAuthentication();
 app.UseAuthorization();
+app.MapGet("/health", () => "OK");
 app.MapControllers();
 app.MapHub<SmartDocs.API.Hubs.DocumentHub>("/hubs/document");
 
@@ -87,5 +88,15 @@ using (var scope = app.Services.CreateScope())
         context.SaveChanges();
     }
 }
-
+// Keep alive - self ping
+var keepAliveUrl = "https://smartdocs-api-zhg6.onrender.com/health";
+_ = Task.Run(async () =>
+{
+    var client = new HttpClient();
+    while (true)
+    {
+        await Task.Delay(TimeSpan.FromMinutes(4));
+        try { await client.GetAsync(keepAliveUrl); } catch { }
+    }
+});
 app.Run();
