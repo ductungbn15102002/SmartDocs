@@ -1,0 +1,22 @@
+﻿FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+WORKDIR /src
+COPY ["SmartDocs.API/SmartDocs.API.csproj", "SmartDocs.API/"]
+COPY ["SmartDocs.Application/SmartDocs.Application.csproj", "SmartDocs.Application/"]
+COPY ["SmartDocs.Infrastructure/SmartDocs.Infrastructure.csproj", "SmartDocs.Infrastructure/"]
+COPY ["SmartDocs.Domain/SmartDocs.Domain.csproj", "SmartDocs.Domain/"]
+RUN dotnet restore "SmartDocs.API/SmartDocs.API.csproj"
+COPY . .
+WORKDIR "/src/SmartDocs.API"
+RUN dotnet build -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "SmartDocs.API.dll"]

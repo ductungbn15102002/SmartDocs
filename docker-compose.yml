@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: smartdocs
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  api:
+    build:
+      context: .
+      dockerfile: SmartDocs.API/Dockerfile
+    ports:
+      - "8080:8080"
+    environment:
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=smartdocs;Username=postgres;Password=yourpassword
+      - Jwt__Secret=your-super-secret-key-at-least-32-characters-long
+      - Jwt__Issuer=SmartDocs
+      - Jwt__Audience=SmartDocsUsers
+    depends_on:
+      - db
+
+volumes:
+  pgdata:

@@ -1,0 +1,12 @@
+﻿global using SmartDocs.Domain.Entities;
+global using SmartDocs.Domain.Enums;
+global using SmartDocs.Application.Common.Interfaces;
+global using SmartDocs.Infrastructure.Persistence;
+global using SmartDocs.Infrastructure.Repositories;
+global using SmartDocs.Infrastructure.Services;
+global using Microsoft.EntityFrameworkCore;
+global using MediatR;
+global using System.Text;
+global using Microsoft.AspNetCore.Authentication.JwtBearer;
+global using Microsoft.IdentityModel.Tokens;
+global using System.Security.Claims;
