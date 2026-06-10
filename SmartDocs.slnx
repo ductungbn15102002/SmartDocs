@@ -1,4 +1,11 @@
 <Solution>
+  <Folder Name="/.github/" />
+  <Folder Name="/.github/workflows/">
+    <File Path="ci.yml" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path="docker-compose.yml" />
+  </Folder>
   <Project Path="SmartDocs.API/SmartDocs.API.csproj" />
   <Project Path="SmartDocs.Application/SmartDocs.Application.csproj" />
   <Project Path="SmartDocs.Domain/SmartDocs.Domain.csproj" />

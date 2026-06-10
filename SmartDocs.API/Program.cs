@@ -49,7 +49,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowAll", policy =>
         policy.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
-
+builder.Services.AddScoped<INotificationService, NotificationService>();
 var app = builder.Build();
 
 app.UseSwagger();
@@ -59,7 +59,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapHub<SmartDocs.API.Hubs.DocumentHub>("/hubs/document");
-builder.Services.AddScoped<INotificationService, NotificationService>();
+
 // Seed data
 using (var scope = app.Services.CreateScope())
 {
